@@ -32,10 +32,27 @@ void enemy_initialization(Character& character, const std::string &name, uint32_
 
 // Checks player commands
 void command_check(std::string &opt, Character& character, bool run);
-   // Test command
+
+
+// Battle method
+void Battle(Character& character);
+
+// These pick a number between 0 and your hit chance to decide how likely you will hit
+extern uint32_t enemy_hit_chance;
+extern uint32_t defending;
+extern uint32_t character_hit_chance;
+extern Character enemy_fighter;
+// cs means character select, this is just what the user chooses as a battle action
+extern std::string cs;
+extern uint32_t ct;
+// Variable to run the battle loop
+extern bool brun;
+
+// Test command
 extern std::string test;
 
-
+// What move you're on. There's 4 in total
+extern std::uint32_t moves;
 
 // Standard enemy classes
 extern Character wolf;

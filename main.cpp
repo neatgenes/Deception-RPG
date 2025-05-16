@@ -7,7 +7,17 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "lib.h"
+#include <map>
 // We'll use files, templates, classes, (try/catch/throw), arrays, references, possibly pointers
+/*
+TO DO:
+Create Enemy Battles - in progress
+Make game end in four moves - so variable that counts moves
+Exp system
+How stats actually work
+Clear up errors
+If enemy attack is strong enough, it gives you a ton of health
+*/
 
 
 
@@ -16,6 +26,9 @@ int main() {
     enemy_initialization(wolf, "wolf", 5U, 2U, 1U, 3U);
     enemy_initialization(undead, "undead", 3U, 2U, 1U, 3U);
     enemy_initialization(warrior, "warrior", 5U, 4U, 2U, 1U);
+
+    // Deque for character loading
+    std::deque<std::string> ls;
 
     // Initialize Character
     Character hero;
@@ -31,10 +44,22 @@ int main() {
     std::cin >> lf;
     if(lf == "load")
         {
-            std::cout << "Load Test";
+            // My Text will contain each line from the file
+            std::string MyText;
+            // The deque below will store the stats from the save file and give your character these stats... probably
+            // Deque name ls means loaded stats or load save
+
+
+            // READ FROM FILE, THROW IN AN ARRAY AND PUT THAT INFO INTO THE CHARACTER CLASS
+            std::ifstream MyFile("save.txt", std::ios::app);
+            while(getline(MyFile, MyText))
+            {
+                ls.push_back(MyText);
+            }
+            MyFile.close();
+
             mn_running = true;
             cg_running = false;
-            // READ FROM FILE, THROW IN AN ARRAY AND PUT THAT INFO INTO THE CHARACTER CLASS
         }
     else if(std::cin.fail())
     {
@@ -99,17 +124,31 @@ int main() {
 
         }
 
-        // Main Program Loop
+
         // four moves until you hit boss and win
+        //If a load has happened ie: the deque isn't empty, load character
+          if(not ls.empty())
+        {
+                uint32_t a = stoi(ls[1]);
+                uint32_t d = stoi(ls[2]);
+                uint32_t h = stoi(ls[3]);
+                uint32_t hc = stoi(ls[4]);
+                //nadhh
+                hero.name = ls[0];
+                hero.attack = a;
+                hero.defense = d;
+                hero.health = h;
+                hero.hit_chance = hc;
+        }
+
+
         std::cout << "You may open the menu at any time by typing \"menu\": \n";
+    // Main Program Loop
     while(mn_running)
     {
-        //system("cls");
 
-        //Entering bad data here closes the program - needs fix
         std::cout << "Enter a command: ";
         std::cin >> u_command;
-
         command_check(u_command, hero, mn_running);
 
     }
